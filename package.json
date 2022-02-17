@@ -1,7 +1,7 @@
 {
   "name": "react-color-gradient-picker-advance",
   "description": "Color picker for react",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "main": "./dist/index-cjs.js",
   "module": "./dist/index-es.js",
   "browser": "./dist/index-cjs.js",
