@@ -22,6 +22,7 @@ function Solid({
     const [colorHue, setColorHue] = useState(0);
     const [colorSaturation, setColorSaturation] = useState(100);
     const [colorValue, setColorValue] = useState(100);
+    const [key_, setKey] = useState(0)
 
     const actions = {
         onChange,
@@ -47,7 +48,7 @@ function Solid({
         hue = getRightValue(hue, colorHue);
         saturation = getRightValue(saturation, colorSaturation);
         value = getRightValue(value, colorValue);
-
+        setKey(key_+1)
         setColorRed(red);
         setColorGreen(green);
         setColorBlue(blue);
@@ -77,6 +78,7 @@ function Solid({
     return (
         <>
             <Area
+                key={key_}
                 red={colorRed}
                 green={colorGreen}
                 blue={colorBlue}

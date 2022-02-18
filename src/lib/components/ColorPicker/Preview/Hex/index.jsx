@@ -8,7 +8,6 @@ function Hex({
 }) {
     const [hexValue, setHexValue] = useState('');
     const [progress, setProgress] = useState(false);
-
     useEffect(() => {
         let hex
         if (progress) {

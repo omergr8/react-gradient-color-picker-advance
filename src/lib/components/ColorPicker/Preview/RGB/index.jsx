@@ -16,13 +16,19 @@ function RGB({
             g=parseInt(rgba[2]);
             b=parseInt(rgba[3]);
             a=parseFloat(rgba[4]);
-            updateRgb({'red' : r, 'green' : g, 'blue' : b, 'alpha' : a });
+            const color = rgbToHsv({
+                red:r,green:g,blue:b
+            });
+            updateRgb({...color, 'red' : r, 'green' : g, 'blue' : b, 'alpha' : a });
             return;
         }else if(rgb){
             r=parseInt(rgb[1]);
             g=parseInt(rgb[2]);
             b=parseInt(rgb[3]);
-            updateRgb({'red' : r, 'green' : g, 'blue' : b, 'alpha' : 1  });
+            const color = rgbToHsv({
+                red:r,green:g,blue:b
+            });
+            updateRgb({...color, 'red' : r, 'green' : g, 'blue' : b, 'alpha' : 1  });
             return;
         }
         else{
@@ -35,7 +41,6 @@ function RGB({
             const color = rgbToHsv({
                 red, green, blue, [field]: value,
             });
-    
             updateRgb({ ...color, [field]: value });
         }
        
