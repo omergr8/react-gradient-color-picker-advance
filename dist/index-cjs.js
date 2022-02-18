@@ -919,7 +919,6 @@ function Hex(ref) {
     var ref$2 = React.useState(false);
     var progress = ref$2[0];
     var setProgress = ref$2[1];
-
     React.useEffect(function () {
         var hex;
         if (progress) {
@@ -1021,13 +1020,19 @@ function RGB(ref) {
             g=parseInt(rgba[2]);
             b=parseInt(rgba[3]);
             a=parseFloat(rgba[4]);
-            updateRgb({'red' : r, 'green' : g, 'blue' : b, 'alpha' : a });
+            var color = rgbToHSv({
+                red:r,green:g,blue:b
+            });
+            updateRgb(Object.assign({}, color, {'red' : r, 'green' : g, 'blue' : b, 'alpha' : a}));
             return;
         }else if(rgb){
             r=parseInt(rgb[1]);
             g=parseInt(rgb[2]);
             b=parseInt(rgb[3]);
-            updateRgb({'red' : r, 'green' : g, 'blue' : b, 'alpha' : 1  });
+            var color$1 = rgbToHSv({
+                red:r,green:g,blue:b
+            });
+            updateRgb(Object.assign({}, color$1, {'red' : r, 'green' : g, 'blue' : b, 'alpha' : 1}));
             return;
         }
         else {
@@ -1037,11 +1042,10 @@ function RGB(ref) {
                 return;
             }
     
-            var color = rgbToHSv(( obj = {
+            var color$2 = rgbToHSv(( obj = {
                 red: red, green: green, blue: blue
             }, obj[field] = value, obj ));
-    
-            updateRgb(Object.assign({}, color, ( obj$1 = {}, obj$1[field] = value, obj$1 )));
+            updateRgb(Object.assign({}, color$2, ( obj$1 = {}, obj$1[field] = value, obj$1 )));
         }
        
     }, [red, green, blue, updateRgb]);
@@ -1113,6 +1117,9 @@ function Solid(ref) {
     var ref$7 = React.useState(100);
     var colorValue = ref$7[0];
     var setColorValue = ref$7[1];
+    var ref$8 = React.useState(0);
+    var key_ = ref$8[0];
+    var setKey = ref$8[1];
 
     var actions = {
         onChange: onChange,
@@ -1148,7 +1155,7 @@ function Solid(ref) {
         hue = getRightValue(hue, colorHue);
         saturation = getRightValue(saturation, colorSaturation);
         value = getRightValue(value, colorValue);
-
+        setKey(key_+1);
         setColorRed(red);
         setColorGreen(green);
         setColorBlue(blue);
@@ -1177,7 +1184,7 @@ function Solid(ref) {
     return (
         React__default["default"].createElement( React__default["default"].Fragment, null, 
             React__default["default"].createElement( Area, {
-                red: colorRed, green: colorGreen, blue: colorBlue, alpha: colorAlpha, hue: colorHue, saturation: colorSaturation, value: colorValue, updateRgb: updateColor }), 
+                key: key_, red: colorRed, green: colorGreen, blue: colorBlue, alpha: colorAlpha, hue: colorHue, saturation: colorSaturation, value: colorValue, updateRgb: updateColor }), 
             React__default["default"].createElement( Preview, {
                 red: colorRed, green: colorGreen, blue: colorBlue, alpha: colorAlpha, updateRgb: updateColor })
         )
