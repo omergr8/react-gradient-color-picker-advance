@@ -196,6 +196,7 @@ function Gradient({
                 type={gradientType}
                 degree={gradientDegree}
                 changeGradientControl={changeGradientControl}
+                setGradientDegree={setGradientDegree}
             />
             <Area
                 red={colorRed}
