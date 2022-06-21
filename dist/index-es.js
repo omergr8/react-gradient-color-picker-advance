@@ -240,9 +240,10 @@ function hexToRgb(value) {
         var green = parseInt(value.substr(2, 2), 16);
         var blue = parseInt(value.substr(4, 2), 16);
         var alpha = parseInt(value.substr(6, 2), 16) / 255;
-
+        !alpha && (alpha=1);
         var color = setRGBA(red, green, blue, alpha);
         var hsv = rgbToHSv(Object.assign({}, color));
+        console.log("i am in hextorgb",alpha,color,value);
         return Object.assign({}, color,
             hsv);
     }
@@ -387,15 +388,18 @@ function Picking(ref) {
         var positionX = ref.positionX;
         var positionY = ref.positionY;
 
-        var ref$1 = changeObjectPositions(event, {
-            startX: startX, startY: startY, positionX: positionX, positionY: positionY,
-        });
-        var positions = ref$1.positions;
-        var color = ref$1.color;
-
-        updateRgb(color, 'onChange');
-
-        return positions;
+        var classIs = event.target.className;
+        //console.log("class is",classIs)
+        if(classIs === 'picker-area' || classIs === 'picking-area-overlay2'){
+            var ref$1 = changeObjectPositions(event, {
+                startX: startX, startY: startY, positionX: positionX, positionY: positionY,
+            });
+            var positions = ref$1.positions;
+            var color = ref$1.color;
+            updateRgb(color, 'onChange');
+            return positions;
+        }
+       
     }, [updateRgb, changeObjectPositions]);
 
     var mouseUpHandler = useCallback(function (event, ref) {
@@ -404,15 +408,19 @@ function Picking(ref) {
         var positionX = ref.positionX;
         var positionY = ref.positionY;
 
-        var ref$1 = changeObjectPositions(event, {
-            startX: startX, startY: startY, positionX: positionX, positionY: positionY,
-        });
-        var positions = ref$1.positions;
-        var color = ref$1.color;
-
-        updateRgb(color, 'onEndChange');
-
-        return positions;
+        var classIs = event.target.className;
+        if(classIs === 'picker-area' || classIs === 'picking-area-overlay2'){
+            var ref$1 = changeObjectPositions(event, {
+                startX: startX, startY: startY, positionX: positionX, positionY: positionY,
+            });
+            var positions = ref$1.positions;
+            var color = ref$1.color;
+    
+            updateRgb(color, 'onEndChange');
+    
+            return positions;
+        }
+    
     }, [updateRgb, changeObjectPositions]);
 
     var mouseEvents = useMouseEvents(mouseDownHandler, mouseMoveHandler, mouseUpHandler);
@@ -1194,6 +1202,7 @@ function GradientControls(ref) {
     var type = ref.type;
     var degree = ref.degree;
     var changeGradientControl = ref.changeGradientControl;
+    var setGradientDegree = ref.setGradientDegree;
 
     var ref$1 = useState(false);
     var disableClick = ref$1[0];
@@ -1260,6 +1269,16 @@ function GradientControls(ref) {
         transform: ("rotate(" + degree + "deg)"),
     };
 
+    var handleDegreeChange = function (e) {
+        var ref = e.target;
+        var value = ref.value;
+        var min = ref.min;
+        var max = ref.max;
+        value = Math.max(Number(min), Math.min(Number(max), Number(value)));
+    
+        setGradientDegree(value);
+    };
+
     return (
         React.createElement( 'div', { className: "gradient-controls" }, 
             React.createElement( 'div', { className: "gradient-type" }, 
@@ -1277,10 +1296,16 @@ function GradientControls(ref) {
                                 React.createElement( 'div', { className: "gradient-degree-pointer" })
                             )
                         ), 
-                        React.createElement( 'div', { className: "gradient-degree-value" }, 
-                            React.createElement( 'p', null, 
-                                degree, "°" )
+                        React.createElement( 'div', { className: "gradient-degree-value-input" }, 
+                             React.createElement( 'input', { type: "number", min: '0', max: "359", value: degree, onChange: handleDegreeChange }), 
+                             React.createElement( 'p', null, "°" )
                         )
+                        /* <div className="gradient-degree-value">
+                            <p>
+                                {degree}
+                                &#176;
+                            </p>
+                        </div> */
                     )
                 )
         )
@@ -1519,7 +1544,7 @@ function Gradient(ref) {
     return (
         React.createElement( React.Fragment, null, 
             React.createElement( GradientControls, {
-                type: gradientType, degree: gradientDegree, changeGradientControl: changeGradientControl }), 
+                type: gradientType, degree: gradientDegree, changeGradientControl: changeGradientControl, setGradientDegree: setGradientDegree }), 
             React.createElement( Area, {
                 red: colorRed, green: colorGreen, blue: colorBlue, alpha: colorAlpha, hue: colorHue, saturation: colorSaturation, value: colorValue, updateRgb: updateColor, isGradient: true, type: gradientType, degree: gradientDegree, points: gradientPoints, activePointIndex: activePointIndex, changeGradientControl: changeGradientControl, changeActivePointIndex: changeActivePointIndex, updateGradientLeft: updateGradientLeft, addPoint: addPoint, removePoint: removePoint }), 
             React.createElement( Preview, {

@@ -87,25 +87,32 @@ function Picking({
     const mouseMoveHandler = useCallback((event, {
         startX, startY, positionX, positionY,
     }) => {
-        const { positions, color } = changeObjectPositions(event, {
-            startX, startY, positionX, positionY,
-        });
-
-        updateRgb(color, 'onChange');
-
-        return positions;
+        const classIs = event.target.className
+        //console.log("class is",classIs)
+        if(classIs === 'picker-area' || classIs === 'picking-area-overlay2'){
+            const { positions, color } = changeObjectPositions(event, {
+                startX, startY, positionX, positionY,
+            });
+            updateRgb(color, 'onChange');
+            return positions;
+        }
+       
     }, [updateRgb, changeObjectPositions]);
 
     const mouseUpHandler = useCallback((event, {
         startX, startY, positionX, positionY,
     }) => {
-        const { positions, color } = changeObjectPositions(event, {
-            startX, startY, positionX, positionY,
-        });
-
-        updateRgb(color, 'onEndChange');
-
-        return positions;
+        const classIs = event.target.className
+        if(classIs === 'picker-area' || classIs === 'picking-area-overlay2'){
+            const { positions, color } = changeObjectPositions(event, {
+                startX, startY, positionX, positionY,
+            });
+    
+            updateRgb(color, 'onEndChange');
+    
+            return positions;
+        }
+    
     }, [updateRgb, changeObjectPositions]);
 
     const mouseEvents = useMouseEvents(mouseDownHandler, mouseMoveHandler, mouseUpHandler);

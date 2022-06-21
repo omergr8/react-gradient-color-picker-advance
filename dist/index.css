@@ -57,7 +57,7 @@
         height: 28px;
         border: 3px solid #1F2667;
         border-radius: 18px;
-        margin-right: 54px; }
+        margin-right: 65px; }
         .ui-color-picker .gradient-controls .gradient-degrees-options .gradient-degrees .gradient-degree-center {
           position: relative;
           width: 6px;
@@ -84,6 +84,22 @@
         .ui-color-picker .gradient-controls .gradient-degrees-options .gradient-degree-value p {
           text-align: center;
           padding: 0 6px; }
+      .ui-color-picker .gradient-controls .gradient-degrees-options .gradient-degree-value-input {
+        position: absolute;
+        top: 0;
+        right: 6px;
+        width: 48px;
+        height: 28px;
+        display: flex;
+        align-items: center;
+        justify-content: center; }
+        .ui-color-picker .gradient-controls .gradient-degrees-options .gradient-degree-value-input input {
+          width: 60px; }
+        .ui-color-picker .gradient-controls .gradient-degrees-options .gradient-degree-value-input p {
+          position: absolute;
+          padding: 0px;
+          min-width: 10px;
+          text-align: center; }
   .ui-color-picker .picker-area {
     display: flex;
     flex-direction: column;

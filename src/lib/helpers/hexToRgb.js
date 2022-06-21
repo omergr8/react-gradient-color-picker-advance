@@ -15,10 +15,11 @@ export default function hexToRgb(value) {
         const red = parseInt(value.substr(0, 2), 16);
         const green = parseInt(value.substr(2, 2), 16);
         const blue = parseInt(value.substr(4, 2), 16);
-        const alpha = parseInt(value.substr(6, 2), 16) / 255;
-
+        let alpha = parseInt(value.substr(6, 2), 16) / 255;
+        !alpha && (alpha=1)
         const color = setRgba(red, green, blue, alpha);
         const hsv = rgbToHsv({ ...color });
+        console.log("i am in hextorgb",alpha,color,value)
         return {
             ...color,
             ...hsv,
